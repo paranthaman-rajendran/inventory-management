@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title th:text="${vendor.vendorId} != null ? 'Edit Vendor' : 'New Vendor'">
+      Vendor Form
+    </title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1H6Pp1K9Q0s2bZ6Y5nE6w5Yl5Yk5n0v1Q5K5Q5Q5Q5"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <header class="site-header py-3 mb-4 bg-dark text-white">
+      <div class="container d-flex flex-column flex-md-row align-items-center">
+        <h1 class="h4 mb-2 mb-md-0">
+          <i class="bi bi-buildings-fill me-2"></i>Construction Inventory Management
+        </h1>
+        <nav class="ms-md-auto">
+          <a class="btn btn-outline-light me-2" th:href="@{/}">
+            <i class="bi bi-house-fill"></i> Home
+          </a>
+          <a class="btn btn-outline-light" th:href="@{/vendors}">
+            <i class="bi bi-people-fill"></i> Vendor Management
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <section class="card shadow-sm border-0">
+            <div class="card-header bg-light py-3">
+              <h2 class="h4 mb-0">
+                <i class="bi bi-building me-2 text-primary"></i>
+                <span th:text="${vendor.vendorId} != null ? 'Edit Vendor Details' : 'Add New Vendor'"></span>
+              </h2>
+            </div>
+            <div class="card-body p-4">
+              <form
+            th:action="${vendor.vendorId} != null ? @{/vendors/{id}/update(id=${vendor.vendorId})} : @{/vendors}"
+            th:object="${vendor}"
+            method="post"
+            class="needs-validation"
+            novalidate
+        >
+          <div class="row g-4">
+            <div class="col-md-12 mb-4">
+              <div class="d-flex align-items-center justify-content-between">
+                <label for="name" class="form-label mb-0 fw-bold">
+                  <i class="bi bi-building text-primary me-2"></i>Company Name
+                </label>
+                <small class="text-muted">Official registered name of the vendor company</small>
+              </div>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                th:field="*{name}"
+                required
+                class="form-control mt-2"
+                placeholder="Enter company name"
+              />
+            </div>
+            
+            <div class="col-md-12 mb-4">
+              <div class="d-flex align-items-center justify-content-between">
+                <label for="contactNo" class="form-label mb-0 fw-bold">
+                  <i class="bi bi-telephone text-primary me-2"></i>Contact Number
+                </label>
+                <small class="text-muted">Primary contact number for the vendor</small>
+              </div>
+              <input
+                type="text"
+                id="contactNo"
+                name="contactNo"
+                th:field="*{contactNo}"
+                class="form-control mt-2"
+                placeholder="Enter contact number"
+              />
+            </div>
+            
+            <div class="col-md-12 mb-4">
+              <div class="d-flex align-items-center justify-content-between">
+                <label for="address" class="form-label mb-0 fw-bold">
+                  <i class="bi bi-geo-alt text-primary me-2"></i>Business Address
+                </label>
+                <small class="text-muted">Physical location or mailing address</small>
+              </div>
+              <textarea
+                id="address"
+                name="address"
+                th:field="*{address}"
+                class="form-control mt-2"
+                rows="3"
+                placeholder="Enter complete business address"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+            <div>
+              <a th:href="@{/vendors}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Back to List
+              </a>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-check-circle"></i> Save Vendor
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div th:if="${vendor.vendorId} != null" class="mt-4 pt-3 border-top">
+          <form
+            th:action="@{/vendors/{id}/delete(id=${vendor.vendorId})}"
+            method="post"
+            onsubmit="return confirm('Are you sure you want to delete this vendor? This action cannot be undone.');"
+          >
+            <button type="submit" class="btn btn-outline-danger">
+              <i class="bi bi-trash"></i> Delete Vendor
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer mt-5 py-3 bg-light">
+      <div class="container">
+        &copy;
+        <span th:text="${T(java.time.Year).now().value}"></span> Construction
+        Inventory
+      </div>
+    </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1H6Pp1K9Q0s2bZ6Y5nE6w5Yl5Yk5n0v1Q5K5Q5Q5Q5"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
